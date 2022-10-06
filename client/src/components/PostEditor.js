@@ -5,6 +5,7 @@ import {
   Stack,
   TextField,
   Typography,
+  MenuItem
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState,useEffect } from "react";
@@ -84,6 +85,7 @@ const PostEditor = () => {
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             fullWidth
+            select
             label="Title"
             required
             name="title"
@@ -91,7 +93,14 @@ const PostEditor = () => {
             onChange={handleChange}
             error={errors.title !== undefined}
             helperText={errors.title}
-          />
+            >
+              <MenuItem value="Fitness">Fitness</MenuItem>
+              <MenuItem value="Food">Food</MenuItem>
+              <MenuItem value="Sports">Sports</MenuItem>
+              <MenuItem value="Grooming">Grooming</MenuItem>
+              <MenuItem value="Education">Education</MenuItem>
+              <MenuItem value="Lifestyle">Lifestyle</MenuItem>
+            </TextField>
           <TextField
             fullWidth
             label="Content"
