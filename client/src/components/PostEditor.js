@@ -99,7 +99,7 @@ const PostEditor = () => {
               <MenuItem value="Sports">Sports</MenuItem>
               <MenuItem value="Grooming">Grooming</MenuItem>
               <MenuItem value="Education">Education</MenuItem>
-              <MenuItem value="Lifestyle">Lifestyle</MenuItem>
+              <MenuItem value="Others">Others</MenuItem>
             </TextField>
           <TextField
             fullWidth

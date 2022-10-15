@@ -64,4 +64,6 @@ PostSchema.pre("remove", async function (next) {
   next();
 });
 
+//PostSchema.index({location: '2dsphere'});
+
 module.exports = mongoose.model("post", PostSchema);
