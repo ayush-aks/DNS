@@ -7,7 +7,7 @@ import { MapContainer, TileLayer,Marker,Popup } from 'react-leaflet'
 
 export default function Map() { 
     const params = useParams();
-    console.log(params.id);
+    //console.log(params.id);
     let cord=params.id.split("+");
     let lat=cord[0].slice(1);
     let long=cord[1];

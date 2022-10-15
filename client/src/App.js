@@ -31,7 +31,7 @@ import Map from "./components/Map";
 // import { io } from "socket.io-client";
 
 function App() {
-  initiateSocketConnection();
+  //initiateSocketConnection();
 
   return (
     <ThemeProvider theme={theme}>
