@@ -177,7 +177,14 @@ const getPosts = async (req, res) => {
     if (!sortBy) sortBy = "-createdAt";
     if (!page) page = 1;
 
-    let posts = await Post.find()
+    let posts = await Post.find({
+      location: {
+          $near: {
+              $geometry:
+                  { type: "Point", coordinates: [28.7015102, 77.4225515] }, $maxDistance: 40000
+          }
+      }
+  })
       .populate("poster", "-password")
       .sort(sortBy)
       .lean();
