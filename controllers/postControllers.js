@@ -173,18 +173,23 @@ const getPosts = async (req, res) => {
     const { userId } = req.body;
 
     let { page, sortBy, author, search, liked } = req.query;
+    // if(sortBy == "-location") {
+    //   let posts = await Post.find({
+    //     location: {
+    //         $near: {
+    //             $geometry:
+    //                 { type: "Point", coordinates: [28.7015102, 77.4225515] }, $maxDistance: 2000
+    //         }
+    //     }
+    // }).populate("poster","-password")
+    // .sort(sortBy)
+    // .lean();
+    // };
 
     if (!sortBy) sortBy = "-createdAt";
     if (!page) page = 1;
 
-    let posts = await Post.find({
-      location: {
-          $near: {
-              $geometry:
-                  { type: "Point", coordinates: [28.7015102, 77.4225515] }, $maxDistance: 40000
-          }
-      }
-  })
+    let posts = await Post.find()
       .populate("poster", "-password")
       .sort(sortBy)
       .lean();

@@ -104,6 +104,7 @@ const PostBrowser = (props) => {
       "-createdAt": "Latest",
       "-likeCount": "Likes",
       // Sort by Location to be added 
+      //"-location" : "Nearby",
       createdAt: "Earliest",
     },
     liked: {
