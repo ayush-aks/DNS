@@ -12,13 +12,17 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 // import HorizontalStack from "../util/HorizontalStack";
 import PostBrowser from "../PostBrowser";
-
+let lat,long;
+navigator.geolocation.getCurrentPosition((position)=>{
+ lat=position.coords.latitude;
+long=position.coords.longitude;
+});
 const ExploreView = () => {
   return (
     <Container>
       <Navbar />
       <GridLayout
-        left={<PostBrowser createPost contentType="posts" />}
+        left={<PostBrowser createPost contentType="posts" lat={lat} long={long}/>}
         right={<Sidebar />}
       />
     </Container>

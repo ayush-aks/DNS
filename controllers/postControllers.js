@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Post = require("../models/Post");
-const User = require("../models/User");
+//const User = require("../models/User");
 const PostLike = require("../models/PostLike");
 const paginate = require("../util/paginate");
 const cooldown = new Set();
@@ -48,10 +48,12 @@ const getPost = async (req, res) => {
       throw new Error("Post does not exist");
     }
 
-    const post = await Post.findById(postId)
+    // const post = await Post.findById(postId)
+    //   .populate("poster", "-password")
+    //   .lean();
+      const post = await Post.findById(postId)
       .populate("poster", "-password")
       .lean();
-
     if (!post) {
       throw new Error("Post does not exist");
     }
@@ -171,29 +173,35 @@ const getUserLikedPosts = async (req, res) => {
 const getPosts = async (req, res) => {
   try {
     const { userId } = req.body;
-
-    let { page, sortBy, author, search, liked } = req.query;
-    // if(sortBy == "-location") {
-    //   let posts = await Post.find({
-    //     location: {
-    //         $near: {
-    //             $geometry:
-    //                 { type: "Point", coordinates: [28.7015102, 77.4225515] }, $maxDistance: 2000
-    //         }
-    //     }
-    // }).populate("poster","-password")
-    // .sort(sortBy)
-    // .lean();
-    // };
-
+    let { page, sortBy,radius ,lat,long, author, search, liked } = req.query;
+    
     if (!sortBy) sortBy = "-createdAt";
     if (!page) page = 1;
-
-    let posts = await Post.find()
+    let posts;
+    if (!lat){
+       posts = await Post.find()
       .populate("poster", "-password")
       .sort(sortBy)
       .lean();
-
+    }if(lat){
+      console.log(lat,long,radius);
+        posts = await Post.find(
+        {
+        location: {
+          $near: {
+            $maxDistance: radius *1000,
+            $geometry: {
+              type: "Point",
+              coordinates:[lat, long]
+            }
+          }
+        }
+      }
+      )
+      .populate("poster", "-password")
+      .sort(sortBy)
+      .lean();
+    }
     if (author) {
       posts = posts.filter((post) => post.poster.username == author);
     }

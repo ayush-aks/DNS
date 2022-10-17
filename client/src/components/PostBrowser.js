@@ -1,8 +1,8 @@
 import { Button, Card, Link, Stack, Typography } from "@mui/material";
-import { alignProperty } from "@mui/material/styles/cssUtils";
+//import { alignProperty } from "@mui/material/styles/cssUtils";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { MdSettingsInputAntenna } from "react-icons/md";
+//import { MdSettingsInputAntenna } from "react-icons/md";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { getPosts, getUserLikedPosts } from "../api/posts";
 import { isLoggedIn } from "../helpers/authHelper";
@@ -11,7 +11,6 @@ import Loading from "./Loading";
 import PostCard from "./PostCard";
 import SortBySelect from "./SortBySelect";
 import HorizontalStack from "./util/HorizontalStack";
-
 const PostBrowser = (props) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +22,9 @@ const PostBrowser = (props) => {
 
   const [search] = useSearchParams();
   const [effect, setEffect] = useState(false);
-
+  const [lat, setlat] = useState(props.lat);
+  const [long, setlong] = useState(props.long);
+  const [radius,setRadius]= useState(50);
   const searchExists =
     search && search.get("search") && search.get("search").length > 0;
 
@@ -31,19 +32,25 @@ const PostBrowser = (props) => {
     setLoading(true);
     const newPage = page + 1;
     setPage(newPage);
-
+   //console.log("post brower",props.lat,props.long);
     let query = {
       page: newPage,
       sortBy,
+      radius,
+      lat,
+      long
     };
 
     let data;
+    // const lat =28.6542;
+    // const long =77.2373;
 
     if (props.contentType === "posts") {
       if (props.profileUser) query.author = props.profileUser.username;
       if (searchExists) query.search = search.get("search");
-
-      data = await getPosts(user && user.token, query);
+      
+      //work here
+      data = await getPosts(user && user.token,query);
     } else if (props.contentType === "liked") {
       data = await getUserLikedPosts(
         props.profileUser._id,
@@ -104,12 +111,13 @@ const PostBrowser = (props) => {
       "-createdAt": "Latest",
       "-likeCount": "Likes",
       // Sort by Location to be added 
-      //"-location" : "Nearby",
-      createdAt: "Earliest",
+     // createdAt: "Earliest",
+     "-location" : "Nearby",
+
     },
     liked: {
       "-createdAt": "Latest",
-      createdAt: "Earliest",
+    //  createdAt: "Earliest",
     },
   };
 
